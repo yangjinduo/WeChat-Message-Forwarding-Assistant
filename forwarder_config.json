@@ -1,0 +1,53 @@
+{
+  "forwarding_rules": [
+    {
+      "id": "rule_1",
+      "name": "转换的规则",
+      "enabled": true,
+      "source": {
+        "type": "wechat",
+        "contact": "矿泉水会飞",
+        "filter_type": "all",
+        "range_start": "@本人",
+        "range_end": "@本人并说结束"
+      },
+      "target": {
+        "type": "wecom",
+        "contact": "无人机AI助教企业版"
+      }
+    },
+    {
+      "id": "rule_2",
+      "name": "规则2",
+      "enabled": true,
+      "source": {
+        "type": "wechat",
+        "contact": "课程测试群",
+        "filter_type": "at_me",
+        "range_start": "",
+        "range_end": ""
+      },
+      "target": {
+        "type": "wecom",
+        "contact": "无人机AI助教企业版"
+      }
+    }
+  ],
+  "detection_delay": 8,
+  "log_retention_days": 10,
+  "queue_max_size": 600,
+  "wechat_nickname": "无人机AI助教",
+  "copy_coordinates": {
+    "无人机AI助教企业版": {
+      "right_click": [
+        69,
+        252
+      ],
+      "copy_click": [
+        110,
+        227
+      ],
+      "window_class": "WwStandaloneConversationWnd"
+    }
+  }
+}

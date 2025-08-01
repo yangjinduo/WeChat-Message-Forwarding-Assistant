@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1753779288292_3",
+    "content": "这是一条已完成的测试消息",
+    "sender": "测试用户3",
+    "chat_name": "测试群聊3",
+    "timestamp": 1753778988.292145,
+    "status": "replied",
+    "retry_count": 0,
+    "created_time": "2025-07-29 16:54:48",
+    "ai_reply": "这是AI的回复内容",
+    "completed_time": 1753779038.292147
+  },
+  {
+    "id": "1753779288292_4",
+    "content": "这是一条失败的测试消息",
+    "sender": "测试用户4",
+    "chat_name": "测试群聊4",
+    "timestamp": 1753778688.2921476,
+    "status": "failed",
+    "retry_count": 3,
+    "created_time": "2025-07-29 16:54:48",
+    "last_error": "测试错误：AI回复超时"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rg:*)",
+      "Bash(pip install:*)",
+      "Bash(where:*)",
+      "Bash(mkdir:*)",
+      "Bash(python test:*)",
+      "Bash(rm:*)",
+      "Bash(ls:*)",
+      "Bash(mv:*)",
+      "Bash(grep:*)",
+      "Bash(python TEST/test_queue_ui.py)",
+      "Bash(python:*)"
+    ],
+    "deny": []
+  }
+}

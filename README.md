@@ -10,6 +10,7 @@
 | :----: | :--: |
 |   OS   | [![Windows](https://img.shields.io/badge/Windows-10\|11\|Server2016+-white?logo=windows&logoColor=white)](https://www.microsoft.com/)  |
 |  微信  | [![Wechat](https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1-3.9.X-07c160?logo=wechat&logoColor=white)](https://pan.baidu.com/s/1FvSw0Fk54GGvmQq8xSrNjA?pwd=vsmj) |
+|  企业微信  | [![WeCom](https://img.shields.io/badge/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1-支持-green?logo=wechat&logoColor=white)](#) |
 | Python | [![Python](https://img.shields.io/badge/Python-3.9\+-blue?logo=python&logoColor=white)](https://www.python.org/)|
 
 
@@ -68,6 +69,51 @@ wx.AddListenChat(nickname="张三", callback=on_message)
 
 # 移除监听
 wx.RemoveListenChat(nickname="张三")
+```
+
+### 3. 企业微信支持
+
+```python
+from wxauto import WeCom
+from wxauto.msgs import FriendMessage
+import time
+
+# 初始化企业微信实例
+wecom = WeCom()
+
+# 发送消息
+wecom.SendMsg("你好", who="同事")
+
+# 获取当前聊天窗口消息
+msgs = wecom.GetAllMessage()
+for msg in msgs:
+    print(f"消息内容: {msg.content}, 消息类型: {msg.type}")
+
+# 监听企业微信消息
+def on_wecom_message(msg, chat):
+    text = f'[企业微信 {msg.type} {msg.attr}]{chat.who} - {msg.content}'
+    print(text)
+    
+    # 自动回复
+    if isinstance(msg, FriendMessage):
+        msg.quote('收到您的消息')
+
+# 添加监听
+wecom.AddListenChat(nickname="同事", callback=on_wecom_message)
+```
+
+### 4. 同时使用个人微信和企业微信
+
+```python
+from wxauto import WeChat, WeCom
+
+# 同时初始化个人微信和企业微信
+wx = WeChat()
+wecom = WeCom()
+
+# 分别操作
+wx.SendMsg("个人消息", who="朋友")
+wecom.SendMsg("工作消息", who="同事")
 ```
 ## 交流
 
