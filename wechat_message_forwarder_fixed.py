@@ -365,7 +365,7 @@ class WeChatMessageForwarder:
         self.root.withdraw()  # 初始时隐藏窗口
         
         # 设置窗口基本属性
-        self.root.title("微信消息转发助手")
+        self.root.title("微信消息转发助手 V0.1")
         self.root.resizable(True, True)
         
         # 获取屏幕尺寸并设置窗口尺寸
@@ -486,20 +486,16 @@ class WeChatMessageForwarder:
         main_frame.columnconfigure(0, weight=1)  # 左侧区域
         main_frame.columnconfigure(1, weight=1)  # 右侧区域
         main_frame.rowconfigure(1, weight=1)     # 主要内容区域
-        
-        # 标题
-        title_label = ttk.Label(main_frame, text="微信消息转发助手", font=("Arial", 16, "bold"))
-        title_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
-        
+
         # 当前微信昵称显示区域
         nickname_frame = ttk.Frame(main_frame)
         nickname_frame.grid(row=0, column=0, columnspan=2, pady=(0, 20), sticky=(tk.W, tk.E))
         nickname_frame.columnconfigure(1, weight=1)
         
-        ttk.Label(nickname_frame, text="当前微信昵称:", font=("Arial", 10)).grid(row=1, column=0, sticky=tk.W, padx=(0, 10))
+        ttk.Label(nickname_frame, text="当前微信昵称:", font=("Microsoft YaHei", 12)).grid(row=1, column=0, sticky=tk.W, padx=(0, 10))
         self.current_nickname_var = tk.StringVar(value="未获取")
         self.current_nickname_label = ttk.Label(nickname_frame, textvariable=self.current_nickname_var, 
-                                              font=("Arial", 10, "bold"), foreground="blue")
+                                              font=("Microsoft YaHei", 12, "bold"), foreground="blue")
         self.current_nickname_label.grid(row=1, column=1, sticky=tk.W)
         
         ttk.Button(nickname_frame, text="刷新昵称", command=self.refresh_wechat_nickname).grid(row=1, column=2, padx=(10, 0))
@@ -526,6 +522,9 @@ class WeChatMessageForwarder:
         
         # 日志显示区域
         self.create_log_section(left_frame, row=3)
+        
+        # 底部说明区域
+        self.create_footer_section(main_frame, row=2)
         
         # 右侧内容 - 消息队列状态区域
         self.create_queue_status_section(right_frame, row=0)
@@ -905,8 +904,53 @@ class WeChatMessageForwarder:
         
         # 状态显示
         self.status_var = tk.StringVar(value="状态: 待机")
-        ttk.Label(control_frame, textvariable=self.status_var, foreground="blue").pack(side=tk.LEFT, padx=(20, 0))
+        ttk.Label(control_frame, textvariable=self.status_var, font=("Microsoft YaHei", 10), foreground="blue").pack(side=tk.LEFT, padx=(20, 0))
+    
+    def create_footer_section(self, parent, row):
+        """创建底部说明区域"""
+        footer_frame = ttk.Frame(parent)
+        footer_frame.grid(row=row, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(10, 0))
+        footer_frame.columnconfigure(0, weight=1)
         
+        # 说明文本
+        info_text = "此项目为开源项目，基于WXAUTO开发。"
+        info_label = ttk.Label(footer_frame, text=info_text, font=("Microsoft YaHei", 10))
+        info_label.grid(row=0, column=0, pady=(5, 2))
+        
+        # 链接区域1
+        links_frame1 = ttk.Frame(footer_frame)
+        links_frame1.grid(row=1, column=0, pady=2)
+        
+        ttk.Label(links_frame1, text="wxauto项目：", font=("Microsoft YaHei", 10)).pack(side=tk.LEFT)
+        wxauto_link = ttk.Label(links_frame1, text="https://github.com/cluic/wxauto", 
+                               font=("Microsoft YaHei", 10), foreground="blue", cursor="hand2")
+        wxauto_link.pack(side=tk.LEFT)
+        wxauto_link.bind("<Button-1>", lambda e: self.open_link("https://github.com/cluic/wxauto"))
+        
+        # 链接区域2
+        links_frame2 = ttk.Frame(footer_frame)
+        links_frame2.grid(row=2, column=0, pady=2)
+        
+        ttk.Label(links_frame2, text="微信消息转发助手（本项目）：", font=("Microsoft YaHei", 10)).pack(side=tk.LEFT)
+        project_link = ttk.Label(links_frame2, text="https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant", 
+                                font=("Microsoft YaHei", 10), foreground="blue", cursor="hand2")
+        project_link.pack(side=tk.LEFT)
+        project_link.bind("<Button-1>", lambda e: self.open_link("https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant"))
+        
+        # 链接区域3
+        links_frame3 = ttk.Frame(footer_frame)
+        links_frame3.grid(row=3, column=0, pady=2)
+        
+        ttk.Label(links_frame3, text="作者介绍：喜欢无人机、穿越机、3D打印、AI编程菜鸟，如有相同爱好欢迎关注作者Bilibili：", font=("Microsoft YaHei", 10)).pack(side=tk.LEFT)
+        bilibili_link = ttk.Label(links_frame3, text="https://space.bilibili.com/409575364", 
+                                 font=("Microsoft YaHei", 10), foreground="blue", cursor="hand2")
+        bilibili_link.pack(side=tk.LEFT)
+        bilibili_link.bind("<Button-1>", lambda e: self.open_link("https://space.bilibili.com/409575364?spm_id_from=333.33.0.0"))
+    
+    def open_link(self, url):
+        """打开链接"""
+        import webbrowser
+        webbrowser.open(url)
     
     def create_log_section(self, parent, row):
         """创建日志显示区域"""

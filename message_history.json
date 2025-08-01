@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1754037691155_1017335928977393451_rule_2",
+    "content": "@无人机AI助教 模拟器练习的流程是什么",
+    "sender": "矿泉水会飞",
+    "chat_name": "课程测试群",
+    "source_type": "wechat",
+    "matched_rule": {
+      "id": "rule_2",
+      "name": "规则2",
+      "enabled": true,
+      "source": {
+        "type": "wechat",
+        "contact": "课程测试群",
+        "filter_type": "at_me",
+        "range_start": "",
+        "range_end": ""
+      },
+      "target": {
+        "type": "wecom",
+        "contact": "无人机AI助教企业版"
+      }
+    },
+    "timestamp": 1754037691.1552665,
+    "status": "replied",
+    "created_time": "2025-08-01 16:41:31",
+    "process_start_time": 1754037692.4660275,
+    "ai_reply": "AI回复已复制并转发",
+    "completed_time": 1754037742.5515726
+  }
+]

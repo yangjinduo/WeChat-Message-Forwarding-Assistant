@@ -1,126 +1,210 @@
-[![plus](https://plus.wxauto.org/images/wxauto_plus_logo3.png)](https://plus.wxauto.org)
+# 微信消息转发助手 V0.1
 
-# wxautoV2版本
+一个基于 [wxauto](https://github.com/cluic/wxauto) 开发的微信消息自动转发工具，支持多规则配置，实现普通微信与企业微信之间的智能消息转发。
 
-**文档**：
-[使用文档](https://docs.wxauto.org) |
-[云服务器wxauto部署指南](https://docs.wxauto.org/other/deploy)
+## ✨ 功能特点
 
-|  环境  | 版本 |
-| :----: | :--: |
-|   OS   | [![Windows](https://img.shields.io/badge/Windows-10\|11\|Server2016+-white?logo=windows&logoColor=white)](https://www.microsoft.com/)  |
-|  微信  | [![Wechat](https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1-3.9.X-07c160?logo=wechat&logoColor=white)](https://pan.baidu.com/s/1FvSw0Fk54GGvmQq8xSrNjA?pwd=vsmj) |
-|  企业微信  | [![WeCom](https://img.shields.io/badge/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1-支持-green?logo=wechat&logoColor=white)](#) |
-| Python | [![Python](https://img.shields.io/badge/Python-3.9\+-blue?logo=python&logoColor=white)](https://www.python.org/)|
+- 🔄 **多规则转发系统**：支持配置多个转发规则，灵活管理不同的消息流
+- 🤖 **智能AI回复**：支持企业微信AI助手回复的自动检测和转发
+- 📋 **复制转发功能**：支持通过坐标复制的方式转发企业微信消息到普通微信
+- 🎯 **精确过滤**：支持多种消息过滤条件（全部消息、@某人消息、指定范围）
+- 📊 **消息队列管理**：内置消息队列系统，确保消息处理的可靠性
+- 🎨 **友好界面**：基于tkinter的图形化界面，操作简单直观
+- 💾 **配置持久化**：支持配置文件保存和加载，设置永久保存
 
+## 🚀 使用场景
 
+- **企业客服场景**：将客户在普通微信群的@消息转发到企业微信AI助手，获得专业回复后转发回客户
+- **工作协作**：在普通微信和企业微信之间建立消息桥梁，提高沟通效率
+- **消息分发**：将一个群的消息按规则分发到不同的目标群或联系人
+- **AI助手集成**：利用企业微信的AI能力为普通微信用户提供智能服务
 
-[![Star History Chart](https://api.star-history.com/svg?repos=cluic/wxauto&type=Date)](https://star-history.com/#cluic/wxauto)
+## 📦 安装要求
 
+### 系统要求
+- Windows 10/11
+- Python 3.7+
 
-## 使用示例
-
-### 1. 基本使用
-
-```python
-from wxauto import WeChat
-
-# 初始化微信实例
-wx = WeChat()
-
-# 发送消息
-wx.SendMsg("你好", who="张三")
-
-# 获取当前聊天窗口消息
-msgs = wx.GetAllMessage()
-for msg in msgs:
-    print(f"消息内容: {msg.content}, 消息类型: {msg.type}")
+### 依赖库
+```bash
+pip install wxauto
+pip install pillow
+pip install pywin32
 ```
 
-### 2. 监听消息
+### 微信环境
+- 已安装并登录普通微信客户端（版本3.9.X，高版本不支持）
+- 已安装并登录企业微信客户端（如需要）
+- 确保微信窗口可以正常显示和操作
 
-```python
-from wxauto import WeChat
-from wxauto.msgs import FriendMessage
-import time
+## 🎯 快速开始
 
-wx = WeChat()
-
-# 消息处理函数
-def on_message(msg, chat):
-    text = f'[{msg.type} {msg.attr}]{chat} - {msg.content}'
-    print(text)
-    with open('msgs.txt', 'a', encoding='utf-8') as f:
-        f.write(text + '\n')
-
-    if msg.type in ('image', 'video'):
-        print(msg.download())
-
-    if isinstance(msg, FriendMessage):
-        time.sleep(len(msg.content))
-        msg.quote('收到')
-
-    ...# 其他处理逻辑，配合Message类的各种方法，可以实现各种功能
-
-# 添加监听，监听到的消息用on_message函数进行处理
-wx.AddListenChat(nickname="张三", callback=on_message)
-
-# ... 程序运行一段时间后 ...
-
-# 移除监听
-wx.RemoveListenChat(nickname="张三")
+### 1. 下载项目
+```bash
+git clone https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant.git
+cd WeChat-Message-Forwarding-Assistant
 ```
 
-### 3. 企业微信支持
-
-```python
-from wxauto import WeCom
-from wxauto.msgs import FriendMessage
-import time
-
-# 初始化企业微信实例
-wecom = WeCom()
-
-# 发送消息
-wecom.SendMsg("你好", who="同事")
-
-# 获取当前聊天窗口消息
-msgs = wecom.GetAllMessage()
-for msg in msgs:
-    print(f"消息内容: {msg.content}, 消息类型: {msg.type}")
-
-# 监听企业微信消息
-def on_wecom_message(msg, chat):
-    text = f'[企业微信 {msg.type} {msg.attr}]{chat.who} - {msg.content}'
-    print(text)
-    
-    # 自动回复
-    if isinstance(msg, FriendMessage):
-        msg.quote('收到您的消息')
-
-# 添加监听
-wecom.AddListenChat(nickname="同事", callback=on_wecom_message)
+### 2. 安装依赖
+```bash
+pip install -r requirements.txt
 ```
 
-### 4. 同时使用个人微信和企业微信
-
-```python
-from wxauto import WeChat, WeCom
-
-# 同时初始化个人微信和企业微信
-wx = WeChat()
-wecom = WeCom()
-
-# 分别操作
-wx.SendMsg("个人消息", who="朋友")
-wecom.SendMsg("工作消息", who="同事")
+### 3. 运行程序
+```bash
+python wechat_message_forwarder_fixed.py
 ```
-## 交流
 
-[微信交流群](https://plus.wxauto.org/plus/#%E8%8E%B7%E5%8F%96plus)
+### 4. 基本配置
+1. **获取微信昵称**：点击"刷新昵称"获取当前微信昵称
+2. **添加转发规则**：
+   - 设置消息来源（微信群或联系人）
+   - 选择过滤条件（全部消息、@某人、指定范围）
+   - 设置转发目标（企业微信联系人）
+3. **保存配置**：点击"保存配置"保存设置
+4. **开始转发**：点击"开始转发"启动消息监听
 
-## 最后
-如果对您有帮助，希望可以帮忙点个Star，如果您正在使用这个项目，可以将右上角的 Unwatch 点为 Watching，以便在我更新或修复某些 Bug 后即使收到反馈，感谢您的支持，非常感谢！
+## 📋 详细使用说明
 
-## 免责声明
-代码仅用于对UIAutomation技术的交流学习使用，禁止用于实际生产项目，请勿用于非法用途和商业用途！如因此产生任何法律纠纷，均与作者无关！
+### 多规则配置
+
+#### 规则参数说明
+- **规则名称**：自定义规则名称，便于管理
+- **启用状态**：可以启用/禁用特定规则
+- **消息来源**：
+  - 类型：普通微信(wechat) 或 企业微信(wecom)
+  - 联系人：具体的群名或联系人昵称
+  - 过滤条件：
+    - `全部消息`：转发所有消息
+    - `@某人消息`：只转发@指定昵称的消息
+    - `指定范围`：转发包含特定关键词的消息
+- **转发目标**：
+  - 类型：普通微信(wechat) 或 企业微信(wecom)
+  - 联系人：目标群名或联系人昵称
+
+#### 典型配置示例
+
+**场景1：群聊AI助手**
+- 来源：普通微信群"技术交流群"
+- 过滤：@我的消息（昵称：AI助手）
+- 目标：企业微信"技术AI助教"
+
+**场景2：消息分发**
+- 来源：企业微信"客服群"
+- 过滤：全部消息
+- 目标：普通微信"客服通知群"
+
+### @消息检测配置
+
+1. **设置检测昵称**：
+   - 程序启动时会自动获取当前微信昵称
+   - 可在"@某人消息"输入框中手动修改检测目标
+   - 点击"使用当前昵称"快速填入
+
+2. **检测逻辑**：
+   - 支持标准@格式：`@昵称`
+   - 支持全角@符号：`＠昵称`
+   - 支持消息开头@：`@昵称 消息内容`
+
+### 复制坐标设置
+
+对于需要从企业微信复制消息到普通微信的场景：
+
+1. **设置复制坐标**：
+   - 点击"设置复制坐标"按钮
+   - 选择目标企业微信联系人
+   - 按提示完成右键和复制按钮坐标设置
+   - 系统会自动保存坐标配置
+
+2. **工作原理**：
+   - 检测企业微信AI回复完成
+   - 自动右键点击消息
+   - 点击复制按钮
+   - 将内容转发到目标普通微信
+
+### 高级设置
+
+#### 检测延迟设置
+- **用途**：控制发送消息到企业微信后多久开始截图检测
+- **默认值**：2秒
+- **建议值**：根据网络状况和AI响应速度调整，通常2-8秒
+
+#### 日志管理
+- **日志保留天数**：控制日志文件保留时间，超期自动清理
+- **队列大小限制**：限制内存中消息队列的最大长度
+
+## 🔧 故障排除
+
+### 常见问题
+
+**Q: 程序提示"获取微信昵称失败"**
+A: 确保微信客户端已打开并完全加载完成，然后点击"刷新昵称"
+
+**Q: @消息检测不准确**
+A: 
+1. 检查"@某人消息"输入框中的昵称是否正确
+2. 确认群聊中@消息的格式是否标准
+3. 查看日志中的检测详情进行调试
+
+**Q: 企业微信消息无法复制**
+A: 
+1. 确保已正确设置复制坐标
+2. 检查企业微信窗口是否可以正常操作
+3. 验证配置文件中是否包含copy_coordinates配置
+
+**Q: 消息转发延迟或失败**
+A: 
+1. 检查网络连接状态
+2. 确认微信客户端运行正常
+3. 适当增加检测延迟时间
+4. 查看转发日志了解具体错误信息
+
+### 调试技巧
+
+1. **查看详细日志**：程序界面右侧显示详细的操作日志
+2. **配置文件检查**：查看`forwarder_config.json`确认配置正确性
+3. **逐步测试**：先测试简单的消息转发，再配置复杂规则
+4. **坐标重设**：如果复制功能异常，重新设置复制坐标
+
+## 🤝 贡献指南
+
+欢迎提交Issue和Pull Request来改进项目！
+
+### 开发环境设置
+```bash
+git clone https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant.git
+cd WeChat-Message-Forwarding-Assistant
+pip install -r requirements.txt
+```
+
+### 代码规范
+- 使用Python PEP 8代码规范
+- 添加适当的注释和文档字符串
+- 保持向后兼容性
+
+## 📄 许可证
+
+本项目基于 MIT 许可证开源，详见 [LICENSE](LICENSE) 文件。
+
+## 🙏 致谢
+
+- [wxauto](https://github.com/cluic/wxauto) - 提供了优秀的微信自动化基础库
+- 所有为项目提供反馈和建议的用户
+
+## 👨‍💻 作者信息
+
+**作者**：矿泉水  
+**兴趣爱好**：无人机、穿越机、3D打印  
+**Bilibili**：[https://space.bilibili.com/409575364]
+如果您也喜欢无人机、穿越机、3D打印等技术，AI编程菜鸟（这个项目就是AI帮我写的代码），欢迎关注作者的Bilibili频道交流学习！
+
+---
+
+## 📞 联系我们
+
+- **GitHub Issues**: [提交问题](https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant/issues)
+- **项目主页**: [WeChat-Message-Forwarding-Assistant](https://github.com/yangjinduo/WeChat-Message-Forwarding-Assistant)
+
+## 🌟 Star History
+
+如果这个项目对您有帮助，请考虑给它一个 ⭐️ Star！
