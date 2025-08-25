@@ -30,6 +30,7 @@
 pip install wxauto
 pip install pillow
 pip install pywin32
+pip install uiautomation
 ```
 
 ### 微信环境
